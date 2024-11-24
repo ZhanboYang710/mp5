@@ -2,10 +2,11 @@ import getAlias from "@/lib/getAlias";
 import { redirect } from "next/navigation";
 
 export default async function showShortUrlSite(
-    { params } : {params: {alias: string} }
+    { params } : { params: Promise<{alias: string}> }
 ) {
-    console.log("Alias received in route:", params.alias);
-    const url_obj = await getAlias(params.alias);
+    const alia_obj = await params;
+    console.log("Alias received in route:", alia_obj.alias);
+    const url_obj = await getAlias(alia_obj.alias);
 
     if (!url_obj) {
         return <p>Something went wrong</p>;
